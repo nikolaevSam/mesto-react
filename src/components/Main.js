@@ -23,8 +23,8 @@ export default function Main({
             onClick={onEditAvatar} />
           <img
             className="profile-info__avatar"
-            style={{ backgroundImage: `url(${userAvatar})` }}
-            alt="аватар"
+            src={userAvatar}
+            alt-text="аватар"
           />
           <h1 className="profile-info__title">
             {userName}

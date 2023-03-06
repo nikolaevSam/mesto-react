@@ -15,8 +15,8 @@ function Card({ card, onCardClick, key }) {
       />
       <img
         className="element__image"
-        style={{ backgroundImage: `url(${card.link})` }}
-        alt={card.name}
+        src={card.link}
+        alt-text={card.name}
         onClick={handleClick} />
       <h2 className="element__text">
         {card.name}

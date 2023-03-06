@@ -28,7 +28,7 @@ export default function App() {
     api.getInitialCards().then(result =>
       setCards(result)
     );
-  }, [userName, userDescription, userAvatar, cards]);
+  });
 
   function handleCardClick(card) {
     setSelectedCard(card);
