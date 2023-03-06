@@ -1,0 +1,17 @@
+.form__label {
+    width: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.form__label:first-child {
+    margin-bottom: 30px;
+}
+
+.form__label:last-of-type {
+    margin-bottom: 48px;
+}

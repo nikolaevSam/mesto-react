@@ -1,0 +1,21 @@
+.profile-info {
+  display: grid;
+  grid-template-columns: max-content;
+  grid-template-areas:
+    "profile-info__avatar profile-info__title profile-info__btn-edit"
+    "profile-info__avatar profile-info__subtitle profile-info__subtitle";
+  gap: 0;
+  margin: 0;
+}
+
+@media screen and (min-width: 320px) and (max-width: 1279px) {
+  .profile-info {
+    grid-template-columns: max-content;
+    justify-content: center;
+    grid-template-areas:
+      "profile-info__avatar profile-info__avatar"
+      "profile-info__title profile-info__btn-edit"
+      "profile-info__subtitle profile-info__subtitle";
+    margin: 0 0 31px;
+  }
+}
