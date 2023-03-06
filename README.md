@@ -29,4 +29,4 @@ Figma
 
 Проектная Работа №10
 
-* [Проектная Работа №9](https://nikolaevsam.github.io/mesto-react)
+* [Проектная Работа №10](https://nikolaevsam.github.io/mesto-react)
