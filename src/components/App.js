@@ -24,11 +24,11 @@ export default function App() {
       setUserName(result.name);
       setUserDescription(result.about);
       setUserAvatar(result.avatar);
-    });
+    }).catch(err => console.log(err));
     api.getInitialCards().then(result =>
       setCards(result)
-    );
-  });
+    ).catch(err => console.log(err));;
+  }, []);
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -54,7 +54,7 @@ export default function App() {
   };
 
   return (
-    <body className="page">
+    <div className="page">
       <Header />
       <Main
         onEditAvatar={handleEditAvatarClick}
@@ -81,6 +81,6 @@ export default function App() {
       <ImagePopup
       card={selectedCard}
       onClose={closeAllPopups} />
-    </body>
+    </div>
   );
 }

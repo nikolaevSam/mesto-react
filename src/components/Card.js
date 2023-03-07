@@ -1,4 +1,4 @@
-function Card({ card, onCardClick, key }) {
+function Card({ card, onCardClick}) {
 
   function handleClick() {
     onCardClick(card);
@@ -6,8 +6,7 @@ function Card({ card, onCardClick, key }) {
 
   return (
     <article
-      className="element"
-      key={key}>
+      className="element">
       <button
         className="element__delete"
         aria-label="удалить место"
@@ -27,7 +26,9 @@ function Card({ card, onCardClick, key }) {
           aria-label="мне нравится / не нравится"
           type="button"
         />
-        <span className="element__like-qty" />
+        <span className="element__like-qty">
+          {card.likes.length}
+        </span>
       </div>
     </article>
   );

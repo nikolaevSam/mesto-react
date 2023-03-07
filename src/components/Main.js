@@ -47,11 +47,11 @@ export default function Main({
       </section>
       <section
         className="elements" >
-        {cards.map((card) =>
+        {cards.map((card, index) =>
         (<Card
+          key={index}
           card={card}
-          onCardClick={onCardClick}
-          key={card._id}>
+          onCardClick={onCardClick}>
         </Card>))}
       </section>
     </main>
