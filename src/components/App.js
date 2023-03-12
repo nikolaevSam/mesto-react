@@ -9,6 +9,7 @@ import AddPlacePopup from './AddPlacePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import ImagePopup from './ImagePopup.js';
 import api from '../utils/api.js';
+import Card from './Card.js';
 import '../page/index.css';
 
 export default function App() {
@@ -82,6 +83,14 @@ export default function App() {
         closeAllPopups();
       })
       .catch(error => console.log(error));
+  }; 
+
+  function handleAppPlaceSubmit(updatedData) {
+    api.addCard(updatedData)
+      .then(newCard => {
+        setCards([...cards, newCard]);
+        closeAllPopups();
+      })
   }
 
   function closeAllPopups() {
@@ -95,15 +104,10 @@ export default function App() {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <CardContext.Provider value={cards}>
-          <Main
-            onEditAvatar={handleEditAvatarClick}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            onCardLike={handleLikeClick}
-            onCardDelete={handleDeleteClick} />
-        </CardContext.Provider>
+        <Main
+          onEditAvatar={handleEditAvatarClick}
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick} />
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -113,6 +117,7 @@ export default function App() {
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+          onAddPlace={handleAppPlaceSubmit}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
@@ -121,6 +126,19 @@ export default function App() {
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups} />
+        <CardContext.Provider value={cards}>
+          <section
+            className="elements" >
+            {cards.map((card, index) =>
+            (<Card
+              key={index}
+              card={card}
+              onCardClick={handleCardClick}
+              onCardLike={handleLikeClick}
+              onCardDelete={handleDeleteClick}>
+            </Card>))}
+          </section>
+        </CardContext.Provider>
       </CurrentUserContext.Provider>
     </div>
   );

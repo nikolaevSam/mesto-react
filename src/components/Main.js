@@ -1,18 +1,12 @@
-import Card from "./Card.js";
 import { useContext } from "react";
-import { CardContext } from "../contexts/CardContext.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 export default function Main({
   onEditProfile,
   onAddPlace,
   onEditAvatar,
-  onCardClick,
-  onCardLike,
-  onCardDelete
 }) {
   const currentUser = useContext(CurrentUserContext);
-  const cards = useContext(CardContext);
 
   return (
     <main>
@@ -48,17 +42,6 @@ export default function Main({
           aria-label="добавить место"
           type="button"
           onClick={onAddPlace} />
-      </section>
-      <section
-        className="elements" >
-        {cards.map((card, index) =>
-        (<Card
-          key={index}
-          card={card}
-          onCardClick={onCardClick}
-          onCardLike={onCardLike}
-          onCardDelete={onCardDelete}>
-        </Card>))}
       </section>
     </main >
   );

@@ -64,6 +64,17 @@ class Api {
         avatar: data.avatar
       })
     }).then(res => this._checkStatus(res));
+  };
+
+  addCard(data) {
+    return fetch(`${this._dataUrl}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      })
+    }).then(res => this._checkStatus(res));
   }
 };
 
