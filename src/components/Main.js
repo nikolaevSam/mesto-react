@@ -1,15 +1,19 @@
 import Card from "./Card.js";
+import { useContext } from "react";
+import { CardContext } from "../contexts/CardContext.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 export default function Main({
   onEditProfile,
   onAddPlace,
   onEditAvatar,
   onCardClick,
-  userName,
-  userDescription,
-  userAvatar,
-  cards
+  onCardLike,
+  onCardDelete
 }) {
+  const currentUser = useContext(CurrentUserContext);
+  const cards = useContext(CardContext);
+
   return (
     <main>
       <section
@@ -23,11 +27,11 @@ export default function Main({
             onClick={onEditAvatar} />
           <img
             className="profile-info__avatar"
-            src={userAvatar}
+            src={currentUser.avatar}
             alt-text="аватар"
           />
           <h1 className="profile-info__title">
-            {userName}
+            {currentUser.name}
           </h1>
           <button
             className="profile-info__edit"
@@ -36,7 +40,7 @@ export default function Main({
             onClick={onEditProfile} />
           <p
             className="profile-info__subtitle">
-            {userDescription}
+            {currentUser.about}
           </p>
         </div>
         <button
@@ -51,9 +55,11 @@ export default function Main({
         (<Card
           key={index}
           card={card}
-          onCardClick={onCardClick}>
+          onCardClick={onCardClick}
+          onCardLike={onCardLike}
+          onCardDelete={onCardDelete}>
         </Card>))}
       </section>
-    </main>
+    </main >
   );
 }

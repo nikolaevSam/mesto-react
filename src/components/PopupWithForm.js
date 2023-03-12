@@ -4,6 +4,7 @@ export default function PopupWithForm({
   buttonText,
   isOpen,
   onClose,
+  onSubmit,
   children
 }) {
   return (
@@ -24,7 +25,8 @@ export default function PopupWithForm({
         <form
           className="form"
           name={`${name}`}
-          noValidate>
+          noValidate
+          onSubmit={onSubmit}>
           {children}
           <button
             className="form__button"

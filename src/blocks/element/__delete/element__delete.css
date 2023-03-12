@@ -17,3 +17,12 @@
   opacity: 0.6;
   cursor: pointer;
 }
+
+.element__delete_visible {
+  display: block;
+}
+
+.element__delete_hidden {
+  display: none;
+}
+
