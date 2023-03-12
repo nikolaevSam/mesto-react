@@ -4,7 +4,8 @@ import PopupWithForm from "./PopupWithForm.js";
 export default function AddPlacePopup({
   isOpen,
   onClose,
-  onAddPlace }) {
+  onAddPlace,
+  isLoading }) {
     const updatedName = useRef(null);
     const updatedLink = useRef(null);
 
@@ -21,7 +22,7 @@ export default function AddPlacePopup({
     <PopupWithForm
       name="place"
       title="Новое место"
-      buttonText="Создать"
+      buttonText={`${isLoading? "Сохранение...": "Создать"}`}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

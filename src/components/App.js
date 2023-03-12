@@ -19,6 +19,7 @@ export default function App() {
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     api.getUserInfo()
@@ -68,30 +69,37 @@ export default function App() {
   };
 
   function handleUpdateUser(updatedData) {
+    setIsLoading(true);
     api.setUserInfo(updatedData)
       .then(result => {
         setCurrentUser(result);
         closeAllPopups();
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
+      .finally(() => setIsLoading(false));
   };
 
   function handleUpdateAvatar(updatedData) {
+    setIsLoading(true);
     api.setAvatar(updatedData)
       .then(result => {
         setCurrentUser(result);
         closeAllPopups();
       })
-      .catch(error => console.log(error));
-  }; 
+      .catch(error => console.log(error))
+      .finally(() => setIsLoading(false));
+  };
 
   function handleAppPlaceSubmit(updatedData) {
+    setIsLoading(true);
     api.addCard(updatedData)
       .then(newCard => {
         setCards([...cards, newCard]);
         closeAllPopups();
       })
-  }
+      .catch(error => console.log(error))
+      .finally(() => setIsLoading(false));
+  };
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
@@ -107,25 +115,30 @@ export default function App() {
         <Main
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick} />
-        <Footer />
+          onAddPlace={handleAddPlaceClick} 
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          isLoading={isLoading}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAppPlaceSubmit}
+          isLoading={isLoading}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar} />
+          onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
+        />
         <ImagePopup
           card={selectedCard}
-          onClose={closeAllPopups} />
+          onClose={closeAllPopups}
+        />
         <CardContext.Provider value={cards}>
           <section
             className="elements" >
@@ -139,6 +152,7 @@ export default function App() {
             </Card>))}
           </section>
         </CardContext.Provider>
+        <Footer />
       </CurrentUserContext.Provider>
     </div>
   );

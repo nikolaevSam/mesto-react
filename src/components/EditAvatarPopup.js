@@ -4,7 +4,8 @@ import PopupWithForm from "./PopupWithForm.js";
 export default function EditAvatarPopup({ 
   isOpen, 
   onClose, 
-  onUpdateAvatar }) {
+  onUpdateAvatar,
+  isLoading }) {
   const updatedAvatarData = useRef(null);
 
   function handleSubmit(event) {
@@ -19,7 +20,7 @@ export default function EditAvatarPopup({
     <PopupWithForm
       name="avatar"
       title="Обновить аватар"
-      buttonText="Сохранить"
+      buttonText={`${isLoading? "Сохранение...": "Сохранить"}`}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit} >
