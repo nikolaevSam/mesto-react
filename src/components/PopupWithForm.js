@@ -5,8 +5,7 @@ export default function PopupWithForm({
   isOpen,
   onClose,
   onSubmit,
-  children
-}) {
+  children}) {
   return (
     <div
       className={`popup popup_type_${name}` + (isOpen && " popup_opened")}>
