@@ -8,6 +8,7 @@ import EditProfilePopup from './EditProfilePopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import ImagePopup from './ImagePopup.js';
+import ConfirmDeletePopup from './ConfirmDeletePopup.js';
 import api from '../utils/api.js';
 import Card from './Card.js';
 import '../page/index.css';
@@ -16,10 +17,12 @@ export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isDeleteCardPopup, setIsDeleteCardPopup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [cards, setCards] = useState([]);
+  const [cardForDelete, setCardForDelete] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     api.getUserInfo()
@@ -32,6 +35,16 @@ export default function App() {
       .then(result => setCards(result))
       .catch(error => console.log(error));
   }, []);
+
+  useEffect(() => {
+    const close = (event) => {
+      if (event.keyCode === 27) {
+        closeAllPopups();
+      }
+    }
+    document.addEventListener('keydown', close)
+    return () => document.removeEventListener('keydown', close)
+  }, [])
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -49,6 +62,11 @@ export default function App() {
     setIsEditAvatarPopupOpen(true);
   };
 
+  function handleDeleteCardClick(card) {
+    setCardForDelete(card);
+    setIsDeleteCardPopup(true);
+  };
+
   function handleLikeClick(card) {
     const isLiked = card.likes.some(item => item._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
@@ -59,13 +77,16 @@ export default function App() {
       .catch(error => console.log(error));
   };
 
-  function handleDeleteClick(card) {
-    api.deleteCard(card._id)
+  function handleDeleteCard() {
+    setIsLoading(true);
+    api.deleteCard(cardForDelete._id)
       .then(() => {
-        const newCards = cards.filter((item) => item._id !== card._id);
+        const newCards = cards.filter((item) => item._id !== cardForDelete._id);
         setCards(newCards);
+        closeAllPopups();
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
+      .finally(() => setIsLoading(false));
   };
 
   function handleUpdateUser(updatedData) {
@@ -105,6 +126,7 @@ export default function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsDeleteCardPopup(false);
     setSelectedCard(null);
   };
 
@@ -115,7 +137,7 @@ export default function App() {
         <Main
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick} 
+          onAddPlace={handleAddPlaceClick}
         />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -139,6 +161,13 @@ export default function App() {
           card={selectedCard}
           onClose={closeAllPopups}
         />
+        <ConfirmDeletePopup
+          card={selectedCard}
+          isOpen={isDeleteCardPopup}
+          onClose={closeAllPopups}
+          onCardDelete={handleDeleteCard}
+          isLoading={isLoading}
+        />
         <CardContext.Provider value={cards}>
           <section
             className="elements" >
@@ -148,7 +177,7 @@ export default function App() {
               card={card}
               onCardClick={handleCardClick}
               onCardLike={handleLikeClick}
-              onCardDelete={handleDeleteClick}>
+              onCardDelete={handleDeleteCardClick} >
             </Card>))}
           </section>
         </CardContext.Provider>
